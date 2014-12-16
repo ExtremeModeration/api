@@ -28,11 +28,6 @@ class Application implements CommandLineRunner {
     void run(String... args) {
         log.info 'Application started, now bootstrapping...'
 
-        // TODO: Remove this so that nobody ever runs it in production!
-        userRepository.deleteAll()
-        def user = new User(username: 'exmo', email: 'exmo@extrememoderation.tv', token: 'abc123')
-        userRepository.save(user)
-
         log.info 'Application is ready!'
     }
 
