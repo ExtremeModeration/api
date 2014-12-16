@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.data.mongodb.config.EnableMongoAuditing
 import tv.extrememoderation.sec.User
 import tv.extrememoderation.sec.UserRepository
 
@@ -13,6 +14,7 @@ import tv.extrememoderation.sec.UserRepository
  */
 
 @Log
+@EnableMongoAuditing
 @SpringBootApplication
 class Application implements CommandLineRunner {
 
@@ -27,9 +29,9 @@ class Application implements CommandLineRunner {
         log.info 'Application started, now bootstrapping...'
 
         // TODO: Remove this so that nobody ever runs it in production!
-        /*userRepository.deleteAll()
+        userRepository.deleteAll()
         def user = new User(username: 'exmo', email: 'exmo@extrememoderation.tv', token: 'abc123')
-        userRepository.save(user)*/
+        userRepository.save(user)
 
         log.info 'Application is ready!'
     }
