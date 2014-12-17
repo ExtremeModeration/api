@@ -11,13 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document
  * Created by Steve on 12/16/2014.
  */
 @Document
-class ForumThread {
+class Message {
 
     @Id
     String id
-    String title
-    String forumId
+    String threadId // ForumThread.id
+    String authorId // User.id
 
+    String body
     @Version
     Long version
     @CreatedDate

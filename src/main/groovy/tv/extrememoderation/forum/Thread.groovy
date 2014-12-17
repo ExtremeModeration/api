@@ -6,19 +6,20 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
 
 /**
  * Created by Steve on 12/16/2014.
  */
 @Document
-class ThreadMessage {
+class Thread {
 
     @Id
     String id
-    String threadId // ForumThread.id
-    String authorId // User.id
+    String title
+    @Field('forum_id')
+    String forumId
 
-    String body
     @Version
     Long version
     @CreatedDate

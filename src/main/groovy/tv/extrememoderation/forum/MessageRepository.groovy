@@ -7,5 +7,6 @@ import org.springframework.stereotype.Component
  * Created by Steve on 12/16/2014.
  */
 @Component
-interface ThreadMessageRepository extends MongoRepository<Forum, String> {
+interface MessageRepository extends MongoRepository<Message, String> {
+    List<Message> findAllByThreadId(String threadId)
 }
