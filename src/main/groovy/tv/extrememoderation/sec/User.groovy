@@ -17,8 +17,8 @@ class User {
     @Id
     String id
     String username
+    String displayName
     String email
-    String token
 
     @Version
     Long version

@@ -24,7 +24,7 @@ import tv.extrememoderation.sec.UserRepository
 @SpringBootApplication
 class Application implements CommandLineRunner {
 
-    /*@Autowired
+    @Autowired
     ForumRepository forumRepository
 
     @Autowired
@@ -34,7 +34,7 @@ class Application implements CommandLineRunner {
     ThreadRepository threadRepository
 
     @Autowired
-    UserRepository userRepository*/
+    UserRepository userRepository
 
     static void main(String[] args) {
         SpringApplication.run Application, args
@@ -43,10 +43,10 @@ class Application implements CommandLineRunner {
     void run(String... args) {
         log.info 'Application started, now bootstrapping...'
 
-        /*[forumRepository, messageRepository, threadRepository, userRepository].each {
+        [forumRepository, messageRepository, threadRepository, userRepository].each {
             it.deleteAll()
         }
-
+/*
         def user = userRepository.save(new User(username: 'exmo', token: 'abc123', email: 'exmo@email.internet.com'))
         def forum = forumRepository.save(new Forum(name: 'Testing'))
         def thread = threadRepository.save(new Thread(forumId: forum.id, title: 'A Test Thread'))

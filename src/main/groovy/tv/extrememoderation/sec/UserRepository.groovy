@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestParam
 @Component
 interface UserRepository extends MongoRepository<User, String> {
 
-    User findByUsername(@Param('username') String username)
+    User findByUsername(String username)
 }
