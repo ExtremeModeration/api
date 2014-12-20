@@ -24,18 +24,6 @@ import tv.extrememoderation.sec.UserRepository
 @SpringBootApplication
 class Application implements CommandLineRunner {
 
-    @Autowired
-    ForumRepository forumRepository
-
-    @Autowired
-    MessageRepository messageRepository
-
-    @Autowired
-    ThreadRepository threadRepository
-
-    @Autowired
-    UserRepository userRepository
-
     static void main(String[] args) {
         SpringApplication.run Application, args
     }
@@ -43,20 +31,7 @@ class Application implements CommandLineRunner {
     void run(String... args) {
         log.info 'Application started, now bootstrapping...'
 
-        [forumRepository, messageRepository, threadRepository, userRepository].each {
-            it.deleteAll()
-        }
-/*
-        def user = userRepository.save(new User(username: 'exmo', token: 'abc123', email: 'exmo@email.internet.com'))
-        def forum = forumRepository.save(new Forum(name: 'Testing'))
-        def thread = threadRepository.save(new Thread(forumId: forum.id, title: 'A Test Thread'))
-        [
-                'Where is the princess???',
-                'In the next castle!',
-                'Ok, thanks, I sure hope there is no lava there!!'
-        ].each {
-            messageRepository.save(new Message(body: it, authorId: user.id, threadId: thread.id))
-        }*/
+
 
         log.info 'Application is ready!'
     }
