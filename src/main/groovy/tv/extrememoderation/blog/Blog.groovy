@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 import org.springframework.data.mongodb.core.mapping.Document
-import tv.extrememoderation.sec.User
+import tv.extrememoderation.util.StringUtils
 
 /**
  * Created by Steve on 12/16/2014.
@@ -14,7 +14,7 @@ import tv.extrememoderation.sec.User
 @Document
 class Blog {
     @Id
-    String id
+    String slug
 
     String title
     String body
@@ -27,4 +27,8 @@ class Blog {
     DateTime createdAt
     @LastModifiedDate
     DateTime lastModified
+
+    void generateSlug() {
+        slug = StringUtils.slugify title
+    }
 }
