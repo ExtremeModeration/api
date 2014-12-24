@@ -1,0 +1,13 @@
+language: groovy
+branches:
+  only:
+    - master
+deploy:
+  edge: true
+  provider: cloudfoundry
+  api: $CF_API
+  username: $CF_USERNAME
+  password: $CF_PASSWORD
+  organization: $CF_ORG
+  space: $CF_SPACE
+script: ./gradlew clean build
