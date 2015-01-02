@@ -1,6 +1,6 @@
 package tv.extrememoderation.sec
 
-//import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.access.annotation.Secured
 
 import static org.springframework.web.bind.annotation.RequestMethod.*
 
@@ -20,7 +20,7 @@ class UserController {
     @Autowired
     UserRepository userRepository
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Secured("ROLE_ADMIN")
     @RequestMapping
     List<User> listUsers() {
         userRepository.findAll()

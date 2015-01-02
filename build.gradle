@@ -41,8 +41,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-mongodb"
     compile "org.springframework.boot:spring-boot-starter-data-rest"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-//    compile "org.springframework.boot:spring-boot-starter-security"
-//    compile "org.springframework.security.oauth:spring-security-oauth2:2.0.5.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-security"
     compile 'org.springframework.cloud:spring-cloud-spring-service-connector:1.0.0.RELEASE'
     compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector:1.0.0.RELEASE'
     compile "org.codehaus.groovy:groovy"
