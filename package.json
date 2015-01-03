@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "The API for http://extrememoderation.tv/",
   "main": "server.js",
+  "engine": "node 0.10.35",
   "scripts": {
     "start": "node server.js",
     "test": "mocha server.tests.js"
