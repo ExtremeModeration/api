@@ -1,5 +1,6 @@
 var superagent = require('superagent'),
-	expect = require('expect.js');
+	expect = require('expect.js')
+	server = require('./server.js');
 
 describe('api.extrememoderation.tv rest server', function(){
 	var auth,

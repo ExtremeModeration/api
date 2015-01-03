@@ -4,6 +4,7 @@
   "description": "The API for http://extrememoderation.tv/",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha server.tests.js"
   },
   "repository": {
