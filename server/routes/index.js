@@ -7,12 +7,11 @@ module.exports = function(db) {
 	router = express.Router(),
 	auth = require('./auth.js')(db),
 	blogs = require('./blogs.js')(db),
+	forums = require('./forums.js')(db),
 	user = require('./users.js')(db);
 
-	// routes that can be accessed by anyone
 	router.post('/login', auth.login);
 
-	// routes that can be accessed only by authenticated users
 	router.get('/v1/blogs', blogs.list);
 	router.get('/v1/blog/:id', blogs.getOne);
 	router.get('/v1/blog/with-slug/:slug', blogs.withSlug);
@@ -20,7 +19,16 @@ module.exports = function(db) {
 	router.put('/v1/blog/:id', blogs.update);
 	router.delete('/v1/blog/:id', blogs.delete);
 
-	// routes that can be accessed only by authenticated and authorized users
+	router.get('/v1/forums', forums.listForums);
+	router.get('/v1/forum/:forum_id', forums.getForum);
+	router.post('/v1/forum', forums.createForum);
+	router.post('/v1/forum/:forum_id', forums.createThread);
+	router.get('/v1/forum/:forum_id/threads', forums.listThreads);
+	router.post('/v1/forum/:forum_id/thread/:thread_id', forums.createMessage);
+	router.get('/v1/forum/:forum_id/thread/:thread_id', forums.getThread);
+	router.delete('/v1/forum/:forum_id/thread/:thread_id', forums.deleteThread);
+	router.delete('/v1/forum/:forum_id', forums.deleteForum);
+
 	router.get('/v1/admin/users', user.getAll);
 	router.get('/v1/admin/user/:id', user.getOne);
 	router.post('/v1/admin/user', user.create);
