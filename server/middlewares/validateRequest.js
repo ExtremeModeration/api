@@ -4,7 +4,7 @@ module.exports = function(db) {
 	validateUser = require('../routes/auth')(db).validateUser;
 
 	return function(req, res, next) {
-		if (req.method == 'GET' && req.url.indexOf('admin') < 0) {
+		if (req.method == 'GET' && req.url.indexOf('secure') < 0) {
 			next();
 		} else {
 			var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
@@ -25,7 +25,7 @@ module.exports = function(db) {
 
 					var dbUser = validateUser(key);
 					if (dbUser) {
-						if ((req.url.indexOf('admin') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('admin') < 0 && req.url.indexOf('/v1/') >= 0)) {
+						if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'secure') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
 							next();
 						} else {
 							res.status(403);

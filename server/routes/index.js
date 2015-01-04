@@ -29,11 +29,11 @@ module.exports = function(db) {
 	router.delete('/v1/forum/:forum_id/thread/:thread_id', forums.deleteThread);
 	router.delete('/v1/forum/:forum_id', forums.deleteForum);
 
-	router.get('/v1/admin/users', user.getAll);
-	router.get('/v1/admin/user/:id', user.getOne);
-	router.post('/v1/admin/user', user.create);
-	router.put('/v1/admin/user/:id', user.update);
-	router.delete('/v1/admin/user/:id', user.delete);
+	router.get('/v1/secure/users', user.getAll);
+	router.get('/v1/secure/user/:id', user.getOne);
+	router.post('/v1/secure/user', user.create);
+	router.put('/v1/secure/user/:id', user.update);
+	router.delete('/v1/secure/user/:id', user.delete);
 
 	return router;
 };
