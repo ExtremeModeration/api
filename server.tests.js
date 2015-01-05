@@ -4,8 +4,8 @@ var server = require('./server.js')
 
 function authComplete(auth) {
 	var test_files = [
-		'blog', 'forum'
-	]
+		'blog', 'forum', 'users'
+	];
 
 	for (var i=0; i < test_files.length; i++) {
 		require('./tests/' + test_files[i] + '.tests.js')(superagent, expect, auth);

@@ -2,6 +2,7 @@ var slugify = require('slugify');
 
 var blogs = function(db) {
 	var collection = db.collection('blog');
+	collection.ensureIndex([['slug', 1]], true, function(err, replies){});
 
 	function handle_res(e, result, res, next) {
 		if (e) return next(e);

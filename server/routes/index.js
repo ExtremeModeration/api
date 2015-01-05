@@ -29,8 +29,8 @@ module.exports = function(db) {
 	router.delete('/v1/forum/:forum_id/thread/:thread_id', forums.deleteThread);
 	router.delete('/v1/forum/:forum_id', forums.deleteForum);
 
-	router.get('/v1/secure/users', user.getAll);
-	router.get('/v1/secure/user/:id', user.getOne);
+	router.get('/v1/secure/users', user.list);
+	router.get('/v1/secure/user/:id', user.getById);
 	router.post('/v1/secure/user', user.create);
 	router.put('/v1/secure/user/:id', user.update);
 	router.delete('/v1/secure/user/:id', user.delete);

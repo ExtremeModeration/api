@@ -9,12 +9,12 @@ module.exports = function(db) {
 	function handle_res(e, result, res, next) {
 		if (e) return next(e);
 		res.send(result);
-	};
+	}
 
 	function handle_put_delete_res(e, result, res, next) {
 		if (e) return next(e);
 		res.send({message: result === 1 ? 'success' : 'error'});
-	};
+	}
 
 	return {
 		listForums: function(req, res, next) {

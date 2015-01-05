@@ -25,7 +25,8 @@ module.exports = function(db) {
 
 					var dbUser = validateUser(key);
 					if (dbUser) {
-						if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'secure') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
+						req.user = dbUser;
+						if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
 							next();
 						} else {
 							res.status(403);

@@ -16,12 +16,12 @@ var auth = function(db) {
             expires: expires,
             user: user
         };
-    };
+    }
 
     function expiresIn(numDays) {
         var dateObj = new Date();
         return dateObj.setDate(dateObj.getDate() + numDays);
-    };
+    }
 
     var _auth = {
         login: function(req, res) {
