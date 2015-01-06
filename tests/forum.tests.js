@@ -1,4 +1,4 @@
-module.exports = function(superagent, expects, auth) {
+module.exports = function(superagent, expect, auth, tearDown) {
 	describe('/v1/forum(s) tests', function(){
 		var forum_id, forum_slug,
 			thread_id, thread_slug,
@@ -136,5 +136,10 @@ module.exports = function(superagent, expects, auth) {
 					done();
 				})
 		});
+		
+		it('finishing forum tests', function(done){
+			done();
+			tearDown('blog');
+		});
 	});
-}
+};

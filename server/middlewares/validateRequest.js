@@ -23,27 +23,30 @@ module.exports = function(db) {
 						return;
 					}
 
-					var dbUser = validateUser(key);
-					if (dbUser) {
-						req.user = dbUser;
-						if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
-							next();
+					validateUser(key, function(e, dbUser){
+						if (e) return next(e);
+						
+						if (dbUser) {
+							req.user = dbUser;
+							if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
+								next();
+							} else {
+								res.status(403);
+								res.json({
+									"status": 403,
+									"message": "Not Authorized"
+								});
+								return;
+							}
 						} else {
-							res.status(403);
+							res.status(401);
 							res.json({
-								"status": 403,
-								"message": "Not Authorized"
+								"status": 401,
+								"message": "Invalid User"
 							});
 							return;
 						}
-					} else {
-						res.status(401);
-						res.json({
-							"status": 401,
-							"message": "Invalid User"
-						});
-						return;
-					}
+					});
 				} catch(err) {
 					res.status(500);
 					res.json({

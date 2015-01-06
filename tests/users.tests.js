@@ -2,7 +2,7 @@
  * Created by steve on 1/4/15.
  */
 
-module.exports = function(superagent, expects, auth) {
+module.exports = function(superagent, expect, auth, tearDown) {
     describe('/v1/secure/users tests', function(){
         var user_id;
         
@@ -95,6 +95,11 @@ module.exports = function(superagent, expects, auth) {
                     expect(result.body.message).to.eql('success');
                     done();
                 });
+        });
+
+        it('finishing users tests', function(done){
+            done();
+            tearDown('blog');
         });
     });
 };

@@ -1,4 +1,4 @@
-module.exports = function(superagent, expect, auth) {
+module.exports = function(superagent, expect, auth, tearDown) {
 	describe('/v1/blog(s) tests', function(){
 		var blog_id,
 			blog_slug;
@@ -86,5 +86,10 @@ module.exports = function(superagent, expect, auth) {
 					done();
 				});
 		});
+		
+		it('finishing blog tests', function(done){
+			done();
+			tearDown('blog');
+		});
 	});
-}
+};
