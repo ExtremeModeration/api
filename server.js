@@ -10,6 +10,9 @@ var express = require('express'),
 
 var app = express();
 
+app.set('view engine', 'jade');
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 

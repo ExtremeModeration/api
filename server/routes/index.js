@@ -10,6 +10,14 @@ module.exports = function(db) {
 	forums = require('./forums.js')(db),
 	user = require('./users.js')(db);
 
+	router.get('/', function(req, res, next){
+		res.render('index', {
+			title: 'ExtremeModeration API',
+			welcome: 'Welcome to the ExtremeModeration API',
+			message: 'Soon you will be able to register an account with the API and connect your own apps!'
+		});
+	});
+	
 	router.post('/login', auth.login);
 
 	router.get('/v1/blogs', blogs.list);
