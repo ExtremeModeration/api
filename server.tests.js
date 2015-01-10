@@ -1,7 +1,7 @@
 var server = require('./server.js'),
 	superagent = require('superagent'),
 	expect = require('expect.js'),
-	db = require('./server/config/mongodb.js').db();
+	db = require('./config/mongodb.js').db();
 
 function authComplete(auth) {
 	var test_files = ['blog', 'forum', 'users'],

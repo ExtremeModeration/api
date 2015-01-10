@@ -5,7 +5,7 @@ var express = require('express'),
     path = require('path'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    mongodb = require('./server/config/mongodb.js'),
+    mongodb = require('./config/mongodb.js'),
     db = mongodb.db();
 
 var app = express();
@@ -29,9 +29,9 @@ app.all('/*', function(req, res, next){
     }
 });
 
-app.all('/v1/*', [require('./server/middlewares/validateRequest')(db)]);
+app.all('/v1/*', [require('./middlewares/validateRequest')(db)]);
 
-app.use('/', require('./server/routes')(db));
+app.use('/', require('./routes')(db));
 
 // If no route is matched by now it must be a 404
 app.use(function(req, res, next){

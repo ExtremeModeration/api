@@ -11,7 +11,7 @@ var auth = function(db) {
         var expires = expiresIn(7); // 7 days
         var token = jwt.encode({
             exp: expires
-        }, require('../config/secret')());
+        }, require('../config/secret.js')());
         
         return {
             token: token,
