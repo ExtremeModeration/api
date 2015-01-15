@@ -8,15 +8,12 @@ module.exports = function(db) {
 	auth = require('./auth.js')(db),
 	blogs = require('./blogs.js')(db),
 	forums = require('./forums.js')(db),
+	page = require('./page.js')(db),
 	user = require('./users.js')(db);
 
-	router.get('/', function(req, res, next){
-		res.render('index', {
-			title: 'ExtremeModeration API',
-			welcome: 'Welcome to the ExtremeModeration API',
-			message: 'Soon you will be able to register an account with the API and connect your own apps!'
-		});
-	});
+	router.get('/', page.index);
+	router.get('/twitch_login', page.twitch_login);
+	router.get('/foo', function(req, res, next){ console.log('foo!'); });
 	
 	router.post('/login', auth.login);
 

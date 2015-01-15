@@ -1,7 +1,14 @@
-//
-   Created by steve on 1/6/15.
 extends layout
    
 block content
-   h1!= welcome
-   p!= message
+   
+   div.row
+      div.small-9.columns
+         h1 Welcome
+         p Please login using your twitch account
+         hr
+   
+   div.row
+      div.small-3.columns
+         a(href='https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=' + twitch.client.id + '&redirect_uri=' + twitch.client.redirect_url + '&scope=user_read')
+            img.btn-twitch.twitch-connect(src='http://ttv-api.s3.amazonaws.com/assets/connect_dark.png')
