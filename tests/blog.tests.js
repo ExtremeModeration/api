@@ -1,10 +1,10 @@
-module.exports = function(superagent, expect, auth, tearDown) {
+module.exports = function(port, superagent, expect, auth, tearDown) {
 	describe('/v1/blog(s) tests', function(){
 		var blog_id,
 			blog_slug;
 
 		it('create a blog post', function(done){
-			superagent.post('http://localhost:3000/v1/blog')
+			superagent.post('http://localhost:' + port +'/v1/blog')
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.send({
@@ -24,7 +24,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('list most recent blog posts', function(done){
-			superagent.get('http://localhost:3000/v1/blogs')
+			superagent.get('http://localhost:' + port +'/v1/blogs')
 				.end(function(e, res){
 					expect(e).to.eql(null);
 					expect(typeof res.body).to.eql('object');
@@ -35,7 +35,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('get blog post by id', function(done){
-			superagent.get('http://localhost:3000/v1/blog/'+blog_id)
+			superagent.get('http://localhost:' + port +'/v1/blog/'+blog_id)
 				.end(function(e, res){
 					expect(e).to.eql(null);
 					expect(typeof res.body).to.eql('object');
@@ -47,7 +47,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('get blog post by slug', function(done){
-			superagent.get('http://localhost:3000/v1/blog/with-slug/'+blog_slug)
+			superagent.get('http://localhost:' + port +'/v1/blog/with-slug/'+blog_slug)
 				.end(function(e, res){
 					expect(e).to.eql(null);
 					expect(typeof res.body).to.eql('object');
@@ -59,7 +59,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('update blog post', function(done){
-			superagent.put('http://localhost:3000/v1/blog/'+blog_id)
+			superagent.put('http://localhost:' + port +'/v1/blog/'+blog_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.send({
@@ -76,7 +76,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('delete blog post', function(done){
-			superagent.del('http://localhost:3000/v1/blog/'+blog_id)
+			superagent.del('http://localhost:' + port +'/v1/blog/'+blog_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.end(function(e, res){
@@ -86,7 +86,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 					done();
 				});
 		});
-		
+
 		it('finishing blog tests', function(done){
 			done();
 			tearDown('blog');

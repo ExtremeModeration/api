@@ -2,12 +2,12 @@
  * Created by steve on 1/4/15.
  */
 
-module.exports = function(superagent, expect, auth, tearDown) {
+module.exports = function(port, superagent, expect, auth, tearDown) {
     describe('/v1/secure/users tests', function(){
         var user_id;
-        
+
         it('create a user', function(done){
-            superagent.post('http://localhost:3000/v1/secure/user')
+            superagent.post('http://localhost:' + port +'/v1/secure/user')
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .send({
@@ -26,9 +26,9 @@ module.exports = function(superagent, expect, auth, tearDown) {
                     done();
                 });
         });
-        
+
         it('get a user by id', function(done){
-            superagent.get('http://localhost:3000/v1/secure/user/'+user_id)
+            superagent.get('http://localhost:' + port +'/v1/secure/user/'+user_id)
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .end(function(e, result){
@@ -39,9 +39,9 @@ module.exports = function(superagent, expect, auth, tearDown) {
                     done();
                 });
         });
-        
+
         it('list users', function(done){
-            superagent.get('http://localhost:3000/v1/secure/users')
+            superagent.get('http://localhost:' + port +'/v1/secure/users')
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .end(function(e, result){
@@ -51,9 +51,9 @@ module.exports = function(superagent, expect, auth, tearDown) {
                     done();
                 });
         });
-        
+
         it('update user', function(done){
-            superagent.put('http://localhost:3000/v1/secure/user/' + user_id)
+            superagent.put('http://localhost:' + port +'/v1/secure/user/' + user_id)
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .send({
@@ -71,7 +71,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
         });
 
         it('verify user was updated', function(done){
-            superagent.get('http://localhost:3000/v1/secure/user/'+user_id)
+            superagent.get('http://localhost:' + port +'/v1/secure/user/'+user_id)
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .end(function(e, result){
@@ -84,9 +84,9 @@ module.exports = function(superagent, expect, auth, tearDown) {
                     done();
                 });
         });
-        
+
         it('delete the user', function(done){
-            superagent.del('http://localhost:3000/v1/secure/user/'+user_id)
+            superagent.del('http://localhost:' + port +'/v1/secure/user/'+user_id)
                 .set('x-access-token', auth.token)
                 .set('x-key', auth.user.username)
                 .end(function(e, result){

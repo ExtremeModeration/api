@@ -1,11 +1,11 @@
-module.exports = function(superagent, expect, auth, tearDown) {
+module.exports = function(port, superagent, expect, auth, tearDown) {
 	describe('/v1/forum(s) tests', function(){
 		var forum_id, forum_slug,
 			thread_id, thread_slug,
 			message_id;
 
 		it('create a forum', function(done){
-			superagent.post('http://localhost:3000/v1/forum')
+			superagent.post('http://localhost:' + port +'/v1/forum')
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.send({ name: 'Automated test forum'})
@@ -21,7 +21,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('get list of forums', function(done){
-			superagent.get('http://localhost:3000/v1/forums')
+			superagent.get('http://localhost:' + port +'/v1/forums')
 				.end(function(e, result){
 					expect(e).to.eql(null);
 					expect(typeof result.body).to.eql('object');
@@ -31,7 +31,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('create thread in forum', function(done){
-			superagent.post('http://localhost:3000/v1/forum/'+forum_id)
+			superagent.post('http://localhost:' + port +'/v1/forum/'+forum_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.send({
@@ -53,7 +53,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('get the list of threads in the forum', function(done){
-			superagent.get('http://localhost:3000/v1/forum/'+forum_id+'/threads')
+			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/threads')
 				.end(function(e, result){
 					expect(e).to.eql(null);
 					expect(typeof result.body).to.eql('object');
@@ -63,7 +63,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('get thread', function(done){
-			superagent.get('http://localhost:3000/v1/forum/'+forum_id+'/thread/'+thread_id)
+			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)
 				.end(function(err, result){
 					expect(err).to.eql(null);
 					expect(typeof result.body).to.eql('object');
@@ -73,7 +73,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('create message in thread', function(done){
-			superagent.post('http://localhost:3000/v1/forum/'+forum_id+'/thread/'+thread_id)
+			superagent.post('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.send({
@@ -90,7 +90,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it ('delete thread', function(done){
-			superagent.del('http://localhost:3000/v1/forum/'+forum_id+'/thread/'+thread_id)
+			superagent.del('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.end(function(e, result) {
@@ -103,7 +103,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('test that thread was deleted', function(done){
-			superagent.get('http://localhost:3000/v1/forum/'+forum_id+'/thread/'+thread_id)
+			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)
 				.end(function(err, result){
 					expect(err).to.eql(null);
 					expect(result.status).to.eql(404);
@@ -114,7 +114,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('delete the forum', function(done) {
-			superagent.del('http://localhost:3000/v1/forum/'+forum_id)
+			superagent.del('http://localhost:' + port +'/v1/forum/'+forum_id)
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
 				.end(function(e, result) {
@@ -127,7 +127,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 		});
 
 		it('test that forum was deleted', function(done){
-			superagent.get('http://localhost:3000/v1/forum/'+forum_id)
+			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id)
 				.end(function(e, result) {
 					expect(e).to.eql(null);
 					expect(result.status).to.eql(404);
@@ -136,7 +136,7 @@ module.exports = function(superagent, expect, auth, tearDown) {
 					done();
 				})
 		});
-		
+
 		it('finishing forum tests', function(done){
 			done();
 			tearDown('blog');

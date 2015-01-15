@@ -10,6 +10,7 @@ var mongo = {
 		}
 		else{
 		   //running locally or not on cloud foundry
+		   console.log(process.env.MONGOLAB_URI);
 		   mongourl = (process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/extrememoderation');
 		}
 		return mongourl;
