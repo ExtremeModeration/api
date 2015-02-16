@@ -1,7 +1,7 @@
 var slugify = require('slugify');
 module.exports = function(port, superagent, expect, db, authComplete) {
 	describe('/login tests', function() {
-		var username, _id;
+		var user;
 
 		it('inject a user to use for testing', function(done){
 			var collection = db.collection('users');
@@ -13,22 +13,19 @@ module.exports = function(port, superagent, expect, db, authComplete) {
 				role: 'admin'
 			}, {}, function(e, result){
 				expect(e).to.eql(null);
-				_id = result[0]._id.toString();
+				user = result[0];
 				done();
 			})
 		});
 
 		it('login and get token', function(done){
 			superagent.post('http://localhost:' + port +'/login')
-				.send({
-					username: username,
-					password: 'yeah-this-is-not-really-my-password'
-				})
+				.send(user)
 				.end(function(e, res){
 					expect(e).to.eql(null);
 					expect(typeof res.body).to.eql('object');
 					expect(res.body.token.length).to.be.above(0);
-					res.body.user._id = _id;
+					expect(res.body.user.username).to.eql(user.username);
 					done();
 
 					authComplete(res.body); // the login test is complete, pass auth to the handler so other tests can run.

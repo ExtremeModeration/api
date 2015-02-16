@@ -28,9 +28,9 @@ var auth = function(db) {
     var _auth = {
         login: function(req, res, next) {
             var username = req.body.username || '',
-                password = req.body.password || '';
+                user = req.body;
             
-            if (username == '' || password == '') {
+            if (username == '') {
                 res.status(401);
                 res.json({
                     "status": 401,
@@ -38,25 +38,25 @@ var auth = function(db) {
                 });
                 return;
             }
-            
-            _auth.validate(username, password, function(e, dbUserObj){
+
+            if (user._id !== undefined) delete user._id;
+
+            collection.findOne({username: username},function(e, _user){
                 if (e) return next(e);
-                if (!dbUserObj) {
-                    res.status(401);
-                    res.json({
-                        "status": 401,
-                        "message": "Invalid credentials"
+                if (!_user) {
+                    // insert
+                    collection.insert(user, function(e, result){
+                        if (e) return next(e);
+                        res.send(genToken(result[0]));
                     });
-                    return;
                 } else {
-                    res.json(genToken(dbUserObj));
+                    // update
+                    collection.updateById(_user._id, {$set: user}, {safe: true, multi: false}, function(e, result){
+                        if (e) return next(e);
+                        user._id = _user._id;
+                        res.send(genToken(user));
+                    });
                 }
-            });
-        },
-        
-        validate: function(username, password, done) {
-            collection.findOne({username: username}, function(e, result){
-                done(e, result);
             });
         },
 
