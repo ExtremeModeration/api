@@ -53,8 +53,10 @@ var auth = function(db) {
                     // update
                     collection.updateById(_user._id, {$set: user}, {safe: true, multi: false}, function(e, result){
                         if (e) return next(e);
-                        user._id = _user._id;
-                        res.send(genToken(user));
+                        collection.findById(_user._id, function(e, user){
+                            if (e) return next(e);
+                            res.send(genToken(user));
+                        });
                     });
                 }
             });
