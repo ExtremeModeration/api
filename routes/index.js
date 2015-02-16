@@ -13,7 +13,6 @@ module.exports = function(db) {
 
 	router.get('/', page.index);
 	router.get('/twitch_login', page.twitch_login);
-	router.get('/foo', function(req, res, next){ console.log('foo!'); });
 	
 	router.post('/login', auth.login);
 
