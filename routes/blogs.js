@@ -37,6 +37,7 @@ var blogs = function(db) {
 
 		create: function(req, res, next) {
 			req.body.slug = slugify(req.body.title.toLowerCase());
+			req.body.createdAt = req.body.lastUpdated = new Date();
 			collection.insert(req.body, {}, function(e, result) {
 				handle_res(e, result[0], res, next);
 			});
@@ -45,6 +46,7 @@ var blogs = function(db) {
 		update: function(req, res, next) {
 			var id = req.params.id;
 			req.body.slug = slugify(req.body.title.toLowerCase());
+			req.body.lastUpdated = new Date();
 			if (req.body._id !== undefined) delete req.body._id;
 			collection.updateById(id, {$set:req.body}, {safe: true, multi: false}, function(e, result) {
 				handle_put_delete_res(e, result, res, next);
