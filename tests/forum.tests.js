@@ -4,15 +4,30 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 			thread_id, thread_slug,
 			message_id;
 
+		var forum = {
+			name: 'Some forum name',
+			slug: 'some-forum-name',
+			thread_count: 15,
+			recent_thread: {
+				name: 'Recent Thread Yo',
+				slug: 'recent-thread-yo',
+				updated_at: '2015-03-03 12:00:00.00',
+				author: 'ExtremeModeration'
+			}
+		};
+
 		it('create a forum', function(done){
 			superagent.post('http://localhost:' + port +'/v1/forum')
 				.set('x-access-token', auth.token)
 				.set('x-key', auth.user.username)
-				.send({ name: 'Automated test forum'})
+				.send({ name: 'Automated test forum' })
 				.end(function(e, result) {
 					expect(e).to.eql(null);
-					expect(typeof result.body).to.eql('object');
+					expect(result.body).to.be.an('object');
 					expect(result.body._id.length).to.eql(24);
+					expect(result.body.thread_count).to.eql(0);
+					expect(result.body.recent_thread).to.eql(null);
+					
 					forum_id = result.body._id;
 					expect(result.body.slug).to.eql('automated-test-forum');
 					forum_slug = result.body.slug;
@@ -24,7 +39,7 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 			superagent.get('http://localhost:' + port +'/v1/forums')
 				.end(function(e, result){
 					expect(e).to.eql(null);
-					expect(typeof result.body).to.eql('object');
+					expect(result.body).to.be.an('object');
 					expect(result.body.length).to.be.above(0);
 					done();
 				});
@@ -48,6 +63,20 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 					thread_id = result.body._id;
 					expect(result.body.slug).to.eql('automated-test-thread');
 					thread_slug = result.body.slug;
+					done();
+				});
+		});
+		
+		it('should get the forum with a single thread in the count and recent_thread', function(done){
+			superagent.get('http://localhost:' + port + '/v1/forum/' + forum_id)
+				.end(function(e, result){
+					expect(e).to.eql(null);
+					expect(result.body).to.be.an('object');
+					expect(result.body.thread_count).to.eql(1);
+					expect(result.body.recent_thread).to.be.an('object');
+					expect(result.body.recent_thread.author.username).to.eql(auth.user.username);
+					expect(result.body.recent_thread.slug).to.eql(thread_slug);
+					
 					done();
 				});
 		});
