@@ -123,6 +123,16 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 					done();
 				});
 		});
+		
+		it('get the list of threads in the forum by slug', function(done){
+			superagent.get('http://localhost:' + port +'/v1/forum/with-slug/'+forum_slug+'/threads')
+				.end(function(e, result){
+					expect(e).to.eql(null);
+					expect(typeof result.body).to.eql('object');
+					expect(result.body.length).to.eql(1);
+					done();
+				});
+		});
 
 		it('get thread', function(done){
 			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)

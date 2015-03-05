@@ -107,6 +107,24 @@ module.exports = function(db) {
 				});
 			});
 		},
+		
+		listThreadsWithSlug: function(req, res, next) {
+			var slug = req.params.slug;
+			forum_collection.findOne({slug: slug}, function(e, forum){
+				if (!forum) {
+					res.status(404);
+					res.send({
+						"status": 404,
+						"message": "Forum with slug " + slug + " not found"
+					});
+					return next();
+				}
+
+				thread_collection.find({forum_id: forum._id}, {}).toArray(function(err, result){
+					handle_res(err, result, res, next);
+				});
+			});
+		},
 
 		createMessage: function(req, res, next) {
 			var forum_id = req.params.forum_id,
