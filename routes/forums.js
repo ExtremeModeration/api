@@ -209,6 +209,32 @@ module.exports = function(db) {
 				});
 			});
 		},
+		
+		getThreadWithSlug: function(req, res, next) {
+			var forum_slug = req.params.forum_slug,
+				thread_slug = req.params.thread_slug;
+
+			forum_collection.findOne({slug: forum_slug}, function(e, forum){
+				if (e) return next(e);
+				thread_collection.findOne({slug: thread_slug, forum_id: forum._id}, function(e, thread){
+					if (e) return next(e);
+		
+					if (!thread) {
+						res.status(404);
+						res.send({
+							status: 404,
+							message: "Thread Not Found"
+						});
+						return next();
+					}
+		
+					message_collection.find({thread_id: thread._id}).toArray(function(er, messages){
+						thread.messages = messages;
+						handle_res(er, thread, res, next);
+					});
+				});
+			})
+		},
 
 		deleteForum: function(req, res, next) {
 			var forum_id = req.params.forum_id;
@@ -230,6 +256,34 @@ module.exports = function(db) {
 				}
 				
 				handle_res(e, result, res, next);
+			});
+		},
+		
+		getForumWithSlug: function(req, res, next) {
+			var slug = req.params.slug;
+			forum_collection.findOne({slug: slug}, function(e, result){
+				if (!result) {
+					res.status(404);
+					res.send({
+						status: 404,
+						message: 'Forum Not Found'
+					});
+					return next();
+				}
+				
+				handle_res(e, result, res, next);
+			});
+		},
+		
+		updateForum: function(req, res, next) {
+			var forum_id = req.params.forum_id;
+			delete req.body._id;
+			req.body.slug = slugify(req.body.name.toLowerCase());
+			forum_collection.updateById(forum_id, {$set:req.body}, {safe: true, multi: false}, function(e, result){
+				if (e) return next(e);
+				forum_collection.findById(forum_id, function(e, forum){
+					handle_res(e, forum, res, next);
+				});
 			});
 		}
 	};

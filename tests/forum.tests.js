@@ -45,6 +45,26 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 				});
 		});
 
+		it('should update the forum\'s name', function(done){
+			superagent.put('http://localhost:' + port + '/v1/forum/' + forum_id)
+				.set('x-access-token', auth.token)
+				.set('x-key', auth.user.username)
+				.send({
+					name: 'Automated test forum X'
+				})
+				.end(function(e, result){
+					expect(e).to.eql(null);
+					expect(result.status).to.eql(200);
+					expect(result.body).to.be.an('object');
+					expect(result.body.name).to.eql('Automated test forum X');
+					expect(result.body.slug).to.eql('automated-test-forum-x');
+					
+					forum_slug = result.body.slug;
+					
+					done();
+				});
+		});
+
 		it('create thread in forum', function(done){
 			superagent.post('http://localhost:' + port +'/v1/forum/'+forum_id)
 				.set('x-access-token', auth.token)
@@ -80,6 +100,19 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 					done();
 				});
 		});
+		
+		it('should get the forum by its slug', function(done){
+			superagent.get('http://localhost:' + port + '/v1/forum/with-slug/' + forum_slug)
+				.end(function(e, result){
+					expect(e).to.eql(null);
+					expect(result.status).to.eql(200);
+					expect(result.body).to.be.an('object');
+					expect(result.body.slug).to.eql(forum_slug);
+					expect(result.body._id).to.eql(forum_id);
+					
+					done();
+				});
+		});
 
 		it('get the list of threads in the forum', function(done){
 			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/threads')
@@ -93,6 +126,16 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 
 		it('get thread', function(done){
 			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/thread/'+thread_id)
+				.end(function(err, result){
+					expect(err).to.eql(null);
+					expect(typeof result.body).to.eql('object');
+					expect(result.body.messages.length).to.be.above(0);
+					done();
+				});
+		});
+
+		it('get thread by slug', function(done){
+			superagent.get('http://localhost:' + port +'/v1/forum/with-slug/'+forum_slug+'/thread/'+thread_slug)
 				.end(function(err, result){
 					expect(err).to.eql(null);
 					expect(typeof result.body).to.eql('object');

@@ -25,11 +25,14 @@ module.exports = function(db) {
 
 	router.get('/v1/forums', forums.listForums);
 	router.get('/v1/forum/:forum_id', forums.getForum);
+	router.get('/v1/forum/with-slug/:slug', forums.getForumWithSlug);
+	router.put('/v1/forum/:forum_id', forums.updateForum);
 	router.post('/v1/forum', forums.createForum);
 	router.post('/v1/forum/:forum_id', forums.createThread);
 	router.get('/v1/forum/:forum_id/threads', forums.listThreads);
 	router.post('/v1/forum/:forum_id/thread/:thread_id', forums.createMessage);
 	router.get('/v1/forum/:forum_id/thread/:thread_id', forums.getThread);
+	router.get('/v1/forum/with-slug/:forum_slug/thread/:thread_slug', forums.getThreadWithSlug);
 	router.delete('/v1/forum/:forum_id/thread/:thread_id', forums.deleteThread);
 	router.delete('/v1/forum/:forum_id', forums.deleteForum);
 
