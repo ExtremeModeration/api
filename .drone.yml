@@ -4,6 +4,6 @@ script:
   - npm install
   - npm test
 env:
-  - MONGOLAB_URL=mongodb://$MONGODB_PORT_27017_TCP_ADDR/extrememoderation
+  - MONGOLAB_URI=mongodb://$MONGODB_PORT_27017_TCP_ADDR/extrememoderation
 services:
   - dockerfile/mongodb
