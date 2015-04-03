@@ -9,50 +9,76 @@ module.exports = function(db) {
 		} else {
 			var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
 			var key = (req.body && req.body.x_key) || (req.query && req.query.x_key) || req.headers['x-key'];
+			var client_token = (req.headers['client-token']);
+			var client_secret = (req.headers['client-secret']);
 
-			if (token || key) {
-				try {
-					var decoded = jwt.decode(token, require('../config/secret.js')());
-
-					if (decoded.exp <= Date.now()) {
-						res.status(400);
-						res.json({
-							"status": 400,
-							"message": "Token expired"
-						});
-						return;
-					}
-
-					validateUser(key, function(e, dbUser){
-						if (e) return next(e);
-						
-						if (dbUser) {
-							req.user = dbUser;
-							if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
-								next();
+			if (token || key || (client_token && client_secret)) {
+				if (token || key) {
+					try {
+						var decoded = jwt.decode(token, require('../config/secret.js')());
+	
+						if (decoded.exp <= Date.now()) {
+							res.status(400);
+							res.json({
+								"status": 400,
+								"message": "Token expired"
+							});
+							return;
+						}
+	
+						validateUser(key, function(e, dbUser){
+							if (e) return next(e);
+							
+							if (dbUser) {
+								req.user = dbUser;
+								if ((req.url.indexOf('secure') >= 0 && dbUser.role == 'admin') || (req.url.indexOf('secure') < 0 && req.url.indexOf('/v1/') >= 0)) {
+									next();
+								} else {
+									res.status(403);
+									res.json({
+										"status": 403,
+										"message": "Not Authorized"
+									});
+									return;
+								}
 							} else {
-								res.status(403);
+								res.status(401);
 								res.json({
-									"status": 403,
-									"message": "Not Authorized"
+									"status": 401,
+									"message": "Invalid User"
 								});
 								return;
 							}
+						});
+					} catch(err) {
+						res.status(500);
+						res.json({
+							"status": 500,
+							"message": "Oops, something went wrong!",
+							"error": err
+						});
+						return;
+					}
+				} else if (client_secret && client_token) {
+					var applications = db.collection('applications');
+					applications.findOne({token: client_token, secret: client_secret}, function(e, result){
+						if (e) return next(e);
+						if (result) {
+							next();
 						} else {
 							res.status(401);
 							res.json({
 								"status": 401,
-								"message": "Invalid User"
+								"message": "Invalid token or key"
 							});
 							return;
 						}
-					});
-				} catch(err) {
-					res.status(500);
+					})
+				} else {
+					res.status(401);
 					res.json({
-						"status": 500,
-						"message": "Oops, something went wrong!",
-						"error": err
+						"status": 401,
+						"message": "Invalid token or key"
 					});
 					return;
 				}
