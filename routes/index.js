@@ -9,7 +9,8 @@ module.exports = function(db) {
 	blogs = require('./blogs.js')(db),
 	forums = require('./forums.js')(db),
 	page = require('./page.js')(db),
-	user = require('./users.js')(db);
+	user = require('./users.js')(db),
+	viewers = require('./viewers')(db);
 
 	router.get('/', page.index);
 	router.get('/twitch_login', page.twitch_login);
@@ -42,6 +43,9 @@ module.exports = function(db) {
 	router.post('/v1/secure/user', user.create);
 	router.put('/v1/secure/user/:id', user.update);
 	router.delete('/v1/secure/user/:id', user.delete);
+	
+	router.put('/v1/viewers', viewers.updateViewers);
+	router.get('/v1/viewers/:name', viewers.getViewerPoints);
 
 	return router;
 };

@@ -103,7 +103,12 @@ module.exports = function(db) {
 				}
 
 				thread_collection.find({forum_id: new ObjectID(forum_id)}, {}).toArray(function(err, result){
-					handle_res(err, result, res, next);
+					var response_object = {
+						name: _forum.name,
+						slug: _forum.slug,
+						threads: result
+					}
+					handle_res(err, response_object, res, next);
 				});
 			});
 		},
@@ -121,7 +126,12 @@ module.exports = function(db) {
 				}
 
 				thread_collection.find({forum_id: forum._id}, {}).toArray(function(err, result){
-					handle_res(err, result, res, next);
+					var response_object = {
+						name: forum.name,
+						slug: forum.slug,
+						threads: result
+					}
+					handle_res(err, response_object, res, next);
 				});
 			});
 		},

@@ -118,8 +118,10 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 			superagent.get('http://localhost:' + port +'/v1/forum/'+forum_id+'/threads')
 				.end(function(e, result){
 					expect(e).to.eql(null);
-					expect(typeof result.body).to.eql('object');
-					expect(result.body.length).to.eql(1);
+					expect(result.body).to.be.an('object');
+					expect(result.body).to.have.keys(['threads', 'name', 'slug']);
+					expect(result.body.threads).to.be.an('array');
+					expect(result.body.threads.length).to.eql(1);
 					done();
 				});
 		});
@@ -128,8 +130,10 @@ module.exports = function(port, superagent, expect, auth, tearDown) {
 			superagent.get('http://localhost:' + port +'/v1/forum/with-slug/'+forum_slug+'/threads')
 				.end(function(e, result){
 					expect(e).to.eql(null);
-					expect(typeof result.body).to.eql('object');
-					expect(result.body.length).to.eql(1);
+					expect(result.body).to.be.an('object');
+					expect(result.body).to.have.keys(['threads', 'name', 'slug']);
+					expect(result.body.threads).to.be.an('array');
+					expect(result.body.threads.length).to.eql(1);
 					done();
 				});
 		});
