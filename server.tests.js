@@ -5,7 +5,7 @@ var server = require('./server.js'),
 	port = process.env.PORT || 3000;
 
 function authComplete(auth) {
-	var test_files = ['blog', 'forum', 'users'],
+	var test_files = ['blog', 'forum', 'users', 'viewers'],
 		tests_complete = [];
 
 	function tearDown(testName) {

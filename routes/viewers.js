@@ -41,6 +41,20 @@ module.exports = function(db) {
             }
             
             saveViewer(viewerList[i]);
+        },
+        
+        getViewerPoints: function(req, res, next) {
+            viewers.findOne({name: req.params.name}, function(e, viewer){
+                if (e) return next(e);
+                if (viewer) {
+                    res.send(viewer);
+                } else {
+                    res.send({
+                        name: req.params.name,
+                        points: 0
+                    });
+                }
+            });
         }
     }
 }
