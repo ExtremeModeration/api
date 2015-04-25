@@ -1,6 +1,7 @@
 /**
  * Created by steve on 1/2/15.
  */
+require('dotenv').load();
 var express = require('express'),
     path = require('path'),
     logger = require('morgan'),

@@ -5,6 +5,7 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     minifyCSS = require('gulp-minify-css'),
+    nodemon = require('gulp-nodemon'),
     sass = require('gulp-sass');
 
 gulp.task('css', function(){
@@ -13,6 +14,12 @@ gulp.task('css', function(){
         .pipe(concat('main.min.css'))
         .pipe(minifyCSS())
         .pipe(gulp.dest('public/stylesheets'));
+});
+
+gulp.task('start', ['css'], function(){
+  nodemon({
+    script: 'server.js'
+  });
 });
 
 gulp.task('default', ['css']);
