@@ -3,10 +3,15 @@
  */
 
 var gulp = require('gulp'),
+    bower = require('gulp-bower'),
     concat = require('gulp-concat'),
     minifyCSS = require('gulp-minify-css'),
     nodemon = require('gulp-nodemon'),
     sass = require('gulp-sass');
+
+gulp.task('bower', function(){
+    return bower({cmd: 'install'});
+});
 
 gulp.task('css', function(){
     return gulp.src('assets/scss/*.scss')
