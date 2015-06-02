@@ -1,9 +1,7 @@
 ---
 applications:
-- name: api.extrememoderation.tv
+- name: api-extrememoderationtv
   memory: 128M
   instances: 2
   services:
-  - new_relic
-  - api_mongo
-  - mail
+  - production_mongodb

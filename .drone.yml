@@ -1,9 +1,0 @@
-image: dockerfile/nodejs
-name: api.extrememoderation.tv
-script:
-  - npm install
-  - npm test
-env:
-  - MONGOLAB_URI=mongodb://$MONGODB_PORT_27017_TCP_ADDR/extrememoderation
-services:
-  - dockerfile/mongodb
